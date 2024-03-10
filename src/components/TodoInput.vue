@@ -5,13 +5,29 @@
 		<span class="addContainer" @click="addTodo">
 			<i class="fa fa-plus addBtn"></i>
 		</span>
+		<Modal :show="showModal" @close="showModal = false">
+      <template #header>
+        <h3>
+					<span>경고!</span>
+					<span class="closeModalBtn" @click="showModal = false"><i class=" fa-solid fa-xmark"></i></span>
+				</h3>
+      </template>
+      <template #body>
+        <span>아무것도 입력하지 않으셨습니다.</span>
+      </template>
+      <template #footer>
+        <h3>copyright</h3>
+      </template>
+    </Modal>
 	</div>
 </template>
 
 <script>
+import Modal from './common/Modal.vue'
 export default {
 	data() {
 		return {
+			showModal: false,
 			newTodoItem: ''
 		}
 	},
@@ -20,12 +36,17 @@ export default {
 			if (this.newTodoItem !== '') {
 				this.$emit('addTodoItem', this.newTodoItem)
 				this.clearInput()
+			} else {
+				this.showModal = !this.showModal
 			}
 		},
 		clearInput() {
 			this.newTodoItem = ''
 		}
 	},
+	components: {
+		Modal
+	}
 }
 </script>
 
@@ -54,5 +75,9 @@ input:focus {
 .addBtn {
 	color: white;
 	vertical-align: middle;
+}
+.closeModalBtn {
+	color: #42b983;
+	cursor: pointer;
 }
 </style>
